@@ -4,7 +4,11 @@ class TeaProtocol {
   constructor(options = {}) {
     this.registryUrl = options.registryUrl || 'https://tea-protocol-api.example.com';
     this.packageId = options.packageId || 'tea-easy-debug';
-    this.privateKey = options.privateKey || crypto.randomBytes(32).toString('hex');
+    // Generate valid ECDSA key pair
+    const { privateKey } = crypto.generateKeyPairSync('ec', {
+      namedCurve: 'secp256k1',
+    });
+    this.privateKey = privateKey;
   }
 
   async reportUsage(context) {
