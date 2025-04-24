@@ -17,7 +17,7 @@ class EasyDebug {
     this.tracer = new Tracer();
     this.telemetry = new Telemetry(options.telemetry);
     this.replay = new Replay();
-    this.tea = new TeaProtocol(options.tea);
+    this.tea = new TeaProtocol(options.tea || {});
     this.predictor = new Predictor(options.ai);
     this.cache = new Cache(options.cache);
     this.debugMode = options.debugMode || false;
@@ -30,68 +30,68 @@ class EasyDebug {
     };
   }
 
+  wrap(func, options = {}) {
+    return (...args) => {
+      const context = { ...options, timestamp: new Date().toISOString() };
+      return this.asyncStorage.run(context, async () => {
+        try {
+          const result = await func(...args);
+          this.telemetry.record('function_call', { context });
+          if (this.tea.enabled) {
+            await this.tea.reportUsage({ context });
+          }
+          return result;
+        } catch (err) {
+          err.context = { ...context, url: args[0]?.originalUrl || '' };
+          this.logger.log(err.message || 'Unknown error', {
+            level: 'error',
+            context: err.context,
+            stack: err.stack,
+          });
+          this.analyzer.recordError(err);
+          this.replay.save(err);
+          if (this.tea.enabled) {
+            await this.tea.reportBug(err, err.context);
+          }
+          throw err;
+        }
+      });
+    };
+  }
+
+  enable(options) {
+    this.debugMode = true;
+    this.logger = new Logger(options);
+    this.analyzer = new Analyzer(options.ai);
+    this.tracer = new Tracer();
+    this.telemetry = new Telemetry(options.telemetry);
+    this.replay = new Replay();
+    this.tea = new TeaProtocol(options.tea || {});
+    this.predictor = new Predictor(options.ai);
+    this.cache = new Cache(options.cache);
+  }
+
+  log(message, options = {}) {
+    this.logger.log(message, options);
+  }
+
+  analyze() {
+    return this.analyzer.summarize();
+  }
+
+  predict() {
+    return this.predictor.predict();
+  }
+
+  exportTelemetry() {
+    return this.telemetry.export();
+  }
+
   getPlugin(name) {
     if (!this.plugins[name]) {
       this.plugins[name] = this.pluginLoaders[name]();
     }
     return this.plugins[name];
-  }
-
-  wrap(func, context = {}) {
-    return this.asyncStorage.run({ context: Sanitize(context) }, () => async (...args) => {
-      try {
-        const result = await func(...args);
-        this.telemetry.track('function_success', { context });
-        this.tea.reportUsage(context);
-        return result;
-      } catch (error) {
-        const enhancedError = this.tracer.enhance(error, context);
-        this.logger.log(enhancedError, { level: 'error', context });
-        this.analyzer.record(enhancedError);
-        this.replay.store(enhancedError);
-        this.telemetry.track('function_error', { context, error: enhancedError.message });
-        this.getPlugin('sentry').capture(enhancedError);
-        this.tea.reportBug(enhancedError, context);
-        throw enhancedError;
-      }
-    });
-  }
-
-  enable(options = {}) {
-    this.debugMode = true;
-    this.logger.setLevel(options.verbose ? 'debug' : 'info');
-  }
-
-  disable() {
-    this.debugMode = false;
-    this.logger.setLevel('error');
-  }
-
-  log(message, options = {}) {
-    if (this.debugMode || options.level === 'error') {
-      const sanitized = Sanitize(message);
-      this.logger.log(sanitized, options);
-    }
-  }
-
-  analyze() {
-    return this.analyzer.summary();
-  }
-
-  predict() {
-    return this.predictor.predict(this.analyzer.errors);
-  }
-
-  replay(errorId) {
-    return this.replay.replay(errorId);
-  }
-
-  exportTelemetry() {
-    return this.telemetry.getData();
-  }
-
-  async getTeaRank() {
-    return this.tea.getTeaRank();
   }
 }
 

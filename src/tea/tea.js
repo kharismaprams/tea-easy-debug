@@ -4,6 +4,7 @@ class TeaProtocol {
   constructor(options = {}) {
     this.registryUrl = options.registryUrl || 'https://tea-protocol-api.example.com';
     this.packageId = options.packageId || 'tea-easy-debug';
+    this.enabled = options.enabled !== false;
     const { privateKey } = crypto.generateKeyPairSync('ec', {
       namedCurve: 'secp256k1',
     });
@@ -11,11 +12,13 @@ class TeaProtocol {
   }
 
   async reportUsage(context) {
+    if (!this.enabled) return;
     const signature = this.signData(context);
     console.log(`Reporting usage to tea registry: ${this.packageId}`, { context, signature });
   }
 
   async reportBug(error, context) {
+    if (!this.enabled) return;
     const signature = this.signData({ error: error.message, context });
     console.log(`Reporting bug to tea registry: ${error.message}`, { context, signature });
   }

@@ -1,24 +1,26 @@
-module.exports = (easyDebug) => ({
+module.exports = function (easyDebug) {
+  return {
     middleware: (req, res, next) => {
-      const start = Date.now();
-      res.on('finish', () => {
-        const duration = Date.now() - start;
-        easyDebug.log(`Request ${req.method} ${req.url}`, {
-          level: 'info',
-          context: { duration, status: res.statusCode },
-        });
-        easyDebug.telemetry.track('express_request', {
-          method: req.method,
-          url: req.url,
-          duration,
+      easyDebug.log(`Request ${req.method} ${req.originalUrl}`, {
+        level: 'info',
+        context: {
+          duration: 0,
           status: res.statusCode,
-        });
+        },
       });
       next();
     },
     errorMiddleware: (err, req, res, next) => {
-      easyDebug.log(err, { level: 'error', context: { url: req.url } });
-      res.status(500).send('Internal Server Error');
-      next();
+      easyDebug.log(err.message || 'Unknown error', {
+        level: 'error',
+        context: {
+          url: req.originalUrl,
+          context: err.context?.context || 'Unknown',
+        },
+        stack: err.stack,
+      });
+      easyDebug.analyzer.recordError(err); // Tambah ini
+      res.status(500).json({ error: err.message || 'Internal Server Error' });
     },
-  });
+  };
+};
