@@ -4,7 +4,6 @@ class TeaProtocol {
   constructor(options = {}) {
     this.registryUrl = options.registryUrl || 'https://tea-protocol-api.example.com';
     this.packageId = options.packageId || 'tea-easy-debug';
-    // Generate valid ECDSA key pair
     const { privateKey } = crypto.generateKeyPairSync('ec', {
       namedCurve: 'secp256k1',
     });
