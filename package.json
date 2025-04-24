@@ -1,10 +1,10 @@
 {
-    "name": "tea-easy-debug",
+    "name": "tea-tea-easy-debug",
     "version": "1.0.0",
     "description": "Ultimate error handling and debugging library for Node.js, frontend, smart contracts, and tea Protocol",
     "main": "src/core/index.js",
     "bin": {
-      "easy-debug": "./bin/easy-debug.js"
+      "tea-easy-debug": "./bin/tea-easy-debug.js"
     },
     "scripts": {
       "test": "jest",
@@ -29,6 +29,6 @@
     },
     "repository": {
       "type": "git",
-      "url": "https://github.com/kharismaprams/tea-easy-debug.git"
+      "url": "https://github.com/kharismaprams/tea-tea-easy-debug.git"
     }
   }

@@ -3,7 +3,7 @@ const crypto = require('crypto');
 class TeaProtocol {
   constructor(options = {}) {
     this.registryUrl = options.registryUrl || 'https://tea-protocol-api.example.com';
-    this.packageId = options.packageId || 'easy-debug';
+    this.packageId = options.packageId || 'tea-easy-debug';
     this.privateKey = options.privateKey || crypto.randomBytes(32).toString('hex');
   }
 

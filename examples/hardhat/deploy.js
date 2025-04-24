@@ -1,5 +1,5 @@
 const { ethers } = require('hardhat');
-const easyDebug = require('easy-debug');
+const easyDebug = require('tea-easy-debug');
 
 easyDebug.enable({
   tea: { packageId: 'my-contract' },

@@ -1,2 +1,2 @@
-console.log('Building easy-debug...');
+console.log('Building tea-easy-debug...');
 // Add build logic (esbuild, WebAssembly)

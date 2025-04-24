@@ -1,5 +1,5 @@
 const express = require('express');
-const easyDebug = require('easy-debug');
+const easyDebug = require('tea-easy-debug');
 
 const app = express();
 

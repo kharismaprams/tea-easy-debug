@@ -1,8 +1,8 @@
-# easy-debug
+# tea-easy-debug
 The ultimate error handling and debugging library for Node.js, frontend, smart contracts, and tea Protocol.
 
 ## Overview
-`easy-debug` simplifies error handling, debugging, and telemetry across all development stacks. It features local AI-driven error prediction, tea Protocol integration for bug reporting and teaRank boosting, and plugins for popular frameworks. Output is optimized for AI analysis (Grok, ChatGPT, Claude) via JSON/CSV files.
+`tea-easy-debug` simplifies error handling, debugging, and telemetry across all development stacks. It features local AI-driven error prediction, tea Protocol integration for bug reporting and teaRank boosting, and plugins for popular frameworks. Output is optimized for AI analysis (Grok, ChatGPT, Claude) via JSON/CSV files.
 
 ## Features
 - **Error Wrapping**: Contextual error handling with stack traces.
@@ -12,18 +12,18 @@ The ultimate error handling and debugging library for Node.js, frontend, smart c
 - **Telemetry**: Track usage with batch reporting.
 - **tea Protocol**: Report bugs/usage to blockchain, boost teaRank.
 - **Plugins**: Express, Hardhat, Next.js, Sentry.
-- **CLI Dashboard**: Interactive error analysis (`easy-debug analyze`).
+- **CLI Dashboard**: Interactive error analysis (`tea-easy-debug analyze`).
 - **Security**: Input sanitization, ECDSA signatures.
 
 ## Installation
 ```bash
-npm install easy-debug @sentry/node commander
+npm install tea-easy-debug @sentry/node commander
 ```
 
 ## Usage
 ### Basic Error Handling
 ```javascript
-const easyDebug = require('easy-debug');
+const easyDebug = require('tea-easy-debug');
 
 easyDebug.enable({
   verbose: true,
@@ -45,14 +45,14 @@ console.log(easyDebug.predict());
 
 ### CLI Dashboard
 ```bash
-easy-debug analyze
+tea-easy-debug analyze
 # Output: Error summary and AI predictions
 ```
 
 ### Express Integration
 ```javascript
 const express = require('express');
-const easyDebug = require('easy-debug');
+const easyDebug = require('tea-easy-debug');
 
 const app = express();
 easyDebug.enable({

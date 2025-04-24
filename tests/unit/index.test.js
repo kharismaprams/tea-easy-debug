@@ -1,6 +1,6 @@
 const EasyDebug = require('../../src/core/index');
 
-describe('easy-debug', () => {
+describe('tea-easy-debug', () => {
   test('wraps function and catches error', async () => {
     const func = EasyDebug.wrap(() => { throw new Error('Test error'); }, { context: 'Test' });
     await expect(func()).rejects.toThrow('Test error');

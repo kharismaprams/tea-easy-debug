@@ -1,5 +1,5 @@
 ### Konfirmasi Tujuan
-**easy-debug**: Library untuk error handling, debugging, dan telemetry di Node.js, frontend, smart contract, dengan integrasi tea Protocol. Fitur utama:
+**tea-easy-debug**: Library untuk error handling, debugging, dan telemetry di Node.js, frontend, smart contract, dengan integrasi tea Protocol. Fitur utama:
 - **Error Wrapping**: Tangkap error dengan konteks.
 - **Custom Logging**: Log fleksibel dengan rate limiting.
 - **AI Error Prediction**: Prediksi error lokal (TinyML), output untuk Grok/ChatGPT/Claude.
@@ -20,7 +20,7 @@ Berdasarkan feedback, berikut ide yang dipertahankan/ditambahkan:
 4. **Ultra-Light Core**:
    - Core <10KB (minified), plugin di WebAssembly, cache LRU.
 5. **CLI Dashboard**:
-   - `easy-debug analyze` untuk visualisasi error, prediksi, dan teaRank.
+   - `tea-easy-debug analyze` untuk visualisasi error, prediksi, dan teaRank.
 6. **VS Code Extension**:
    - Highlight error dan saran AI di editor.
 7. **Error Simulation**:
@@ -31,7 +31,7 @@ Berdasarkan feedback, berikut ide yang dipertahankan/ditambahkan:
 ### Struktur Folder yang Diperbaiki
 Fokus ke kebutuhan developer, rapi, dan esensial:
 ```
-easy-debug/
+tea-easy-debug/
 ├── src/
 │   ├── core/               # Logika inti
 │   │   ├── index.js        # Main API
@@ -68,7 +68,7 @@ easy-debug/
 │   ├── nextjs/             # Demo Next.js
 │   │   ├── pages/index.js
 ├── bin/
-│   ├── easy-debug.js       # CLI
+│   ├── tea-easy-debug.js       # CLI
 ├── scripts/
 │   ├── build.js            # Build
 ├── public/
@@ -100,7 +100,7 @@ easy-debug/
 Berikut artifact lengkap dengan semua file, output, use case, contoh error, dan demo.
 
 ```javascript
-easy-debug/
+tea-easy-debug/
 ├── src/
 │   ├── core/
 │   │   ├── index.js
@@ -139,7 +139,7 @@ easy-debug/
 │   ├── nextjs/
 │   │   ├── pages/index.js
 ├── bin/
-│   ├── easy-debug.js
+│   ├── tea-easy-debug.js
 ├── scripts/
 │   ├── build.js
 ├── public/
@@ -481,7 +481,7 @@ const crypto = require('crypto');
 class TeaProtocol {
   constructor(options = {}) {
     this.registryUrl = options.registryUrl || 'https://tea-protocol-api.example.com';
-    this.packageId = options.packageId || 'easy-debug';
+    this.packageId = options.packageId || 'tea-easy-debug';
     this.privateKey = options.privateKey || crypto.randomBytes(32).toString('hex');
   }
 
@@ -618,7 +618,7 @@ module.exports = (easyDebug, sentryOptions = {}) => {
   };
 };
 
-// bin/easy-debug.js
+// bin/tea-easy-debug.js
 #!/usr/bin/env node
 const { program } = require('commander');
 const EasyDebug = require('../src/core/index');
@@ -648,12 +648,12 @@ program.parse();
 
 // package.json
 {
-  "name": "easy-debug",
+  "name": "tea-easy-debug",
   "version": "1.0.0",
   "description": "Ultimate error handling and debugging library for Node.js, frontend, smart contracts, and tea Protocol",
   "main": "src/core/index.js",
   "bin": {
-    "easy-debug": "./bin/easy-debug.js"
+    "tea-easy-debug": "./bin/tea-easy-debug.js"
   },
   "scripts": {
     "test": "jest",
@@ -678,16 +678,16 @@ program.parse();
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/easy-debug.git"
+    "url": "https://github.com/your-username/tea-easy-debug.git"
   }
 }
 
 // README.md
-# easy-debug
+# tea-easy-debug
 The ultimate error handling and debugging library for Node.js, frontend, smart contracts, and tea Protocol.
 
 ## Overview
-`easy-debug` simplifies error handling, debugging, and telemetry across all development stacks. It features local AI-driven error prediction, tea Protocol integration for bug reporting and teaRank boosting, and plugins for popular frameworks. Output is optimized for AI analysis (Grok, ChatGPT, Claude) via JSON/CSV files.
+`tea-easy-debug` simplifies error handling, debugging, and telemetry across all development stacks. It features local AI-driven error prediction, tea Protocol integration for bug reporting and teaRank boosting, and plugins for popular frameworks. Output is optimized for AI analysis (Grok, ChatGPT, Claude) via JSON/CSV files.
 
 ## Features
 - **Error Wrapping**: Contextual error handling with stack traces.
@@ -697,18 +697,18 @@ The ultimate error handling and debugging library for Node.js, frontend, smart c
 - **Telemetry**: Track usage with batch reporting.
 - **tea Protocol**: Report bugs/usage to blockchain, boost teaRank.
 - **Plugins**: Express, Hardhat, Next.js, Sentry.
-- **CLI Dashboard**: Interactive error analysis (`easy-debug analyze`).
+- **CLI Dashboard**: Interactive error analysis (`tea-easy-debug analyze`).
 - **Security**: Input sanitization, ECDSA signatures.
 
 ## Installation
 ```bash
-npm install easy-debug @sentry/node commander
+npm install tea-easy-debug @sentry/node commander
 ```
 
 ## Usage
 ### Basic Error Handling
 ```javascript
-const easyDebug = require('easy-debug');
+const easyDebug = require('tea-easy-debug');
 
 easyDebug.enable({
   verbose: true,
@@ -730,14 +730,14 @@ console.log(easyDebug.predict());
 
 ### CLI Dashboard
 ```bash
-easy-debug analyze
+tea-easy-debug analyze
 # Output: Error summary and AI predictions
 ```
 
 ### Express Integration
 ```javascript
 const express = require('express');
-const easyDebug = require('easy-debug');
+const easyDebug = require('tea-easy-debug');
 
 const app = express();
 easyDebug.enable({
@@ -895,7 +895,7 @@ SOFTWARE.
 
 // examples/express/index.js
 const express = require('express');
-const easyDebug = require('easy-debug');
+const easyDebug = require('tea-easy-debug');
 
 const app = express();
 easyDebug.enable({
@@ -919,7 +919,7 @@ app.listen(3000, () => {
 
 // examples/hardhat/deploy.js
 const { ethers } = require('hardhat');
-const easyDebug = require('easy-debug');
+const easyDebug = require('tea-easy-debug');
 
 easyDebug.enable({
   tea: { packageId: 'my-contract' },
@@ -939,7 +939,7 @@ deploy();
 
 // examples/nextjs/pages/index.js
 import { useEffect } from 'react';
-import { easyDebug } from 'easy-debug';
+import { easyDebug } from 'tea-easy-debug';
 
 easyDebug.enable({
   telemetry: { enabled: true },
@@ -961,7 +961,7 @@ export default function Home() {
 }
 
 // scripts/build.js
-console.log('Building easy-debug...');
+console.log('Building tea-easy-debug...');
 // Add build logic (esbuild, WebAssembly)
 
 // .eslintrc.js
@@ -1026,10 +1026,10 @@ jobs:
 
 // docs/usage.md
 # Usage Guide
-1. Install: `npm install easy-debug`.
+1. Install: `npm install tea-easy-debug`.
 2. Initialize: `easyDebug.enable({ ai: { enabled: true } })`.
 3. Wrap functions: `easyDebug.wrap(async () => {...})`.
-4. Analyze: `easyDebug.analyze()` or `easy-debug analyze`.
+4. Analyze: `easyDebug.analyze()` or `tea-easy-debug analyze`.
 ```
 
 ---

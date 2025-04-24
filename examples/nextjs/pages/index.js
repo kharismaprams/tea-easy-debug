@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { easyDebug } from 'easy-debug';
+import { easyDebug } from 'tea-easy-debug';
 
 easyDebug.enable({
   telemetry: { enabled: true },
