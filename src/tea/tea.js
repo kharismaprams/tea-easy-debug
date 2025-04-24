@@ -5,10 +5,15 @@ class TeaProtocol {
     this.registryUrl = options.registryUrl || 'https://tea-protocol-api.example.com';
     this.packageId = options.packageId || 'tea-easy-debug';
     this.enabled = options.enabled !== false;
-    const { privateKey } = crypto.generateKeyPairSync('ec', {
-      namedCurve: 'secp256k1',
-    });
-    this.privateKey = privateKey;
+    try {
+      const { privateKey } = crypto.generateKeyPairSync('ec', {
+        namedCurve: 'secp256k1',
+      });
+      this.privateKey = privateKey;
+    } catch (err) {
+      console.error('Failed to generate private key:', err.message);
+      this.privateKey = null;
+    }
   }
 
   async reportUsage(context) {

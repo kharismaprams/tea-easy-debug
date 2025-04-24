@@ -1,29 +1,39 @@
+const Cache = require('../utils/cache');
+
 class Analyzer {
   constructor(options = {}) {
     this.errors = [];
-    this.aiOptions = options || {};
+    this.maxErrors = options.maxErrors || 1000;
+    this.aiEnabled = !!options.enabled;
+    this.cache = new Cache({ max: 1000 });
   }
 
-  recordError(error) {
-    this.errors.push({
-      id: `err_${this.errors.length + 1}`,
-      message: error.message || 'Unknown error',
-      context: error.context || {},
+  record(error) {
+    if (this.errors.length >= this.maxErrors) this.errors.shift();
+    const errorId = `err_${this.errors.length.toString().padStart(3, '0')}`;
+    const enhanced = {
+      id: errorId,
+      message: error.message,
       stack: error.stack,
       timestamp: new Date().toISOString(),
-    });
+      context: error.context || { level: 'error' }, // Default context level
+    };
+    this.errors.push(enhanced);
+    this.cache.set(errorId, enhanced);
   }
 
-  summarize() {
-    const errorTypes = {};
-    this.errors.forEach((err) => {
-      errorTypes[err.message] = (errorTypes[err.message] || 0) + 1;
-    });
+  summary() {
+    const total = this.errors.length;
+    const byType = this.errors.reduce((acc, err) => {
+      acc[err.message] = (acc[err.message] || 0) + 1;
+      return acc;
+    }, {});
+    const critical = this.errors.filter(err => err.context.level === 'error').length;
     return {
-      totalErrors: this.errors.length,
-      criticalErrors: this.errors.length,
-      errorTypes,
-      lastError: this.errors[this.errors.length - 1] || null,
+      totalErrors: total,
+      criticalErrors: critical,
+      errorTypes: byType,
+      lastError: this.errors[total - 1] || null,
     };
   }
 }

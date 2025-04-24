@@ -13,4 +13,17 @@ describe('Express Plugin', () => {
     expect(consoleSpy).toHaveBeenCalled();
     consoleSpy.mockRestore();
   });
+
+  test('handles errors gracefully', async () => {
+    const app = express();
+    app.use(EasyDebug.getPlugin('express').middleware);
+    app.get('/error', (req, res) => {
+      throw new Error('Test error');
+    });
+    app.use(EasyDebug.getPlugin('express').errorMiddleware);
+
+    const response = await request(app).get('/error');
+    expect(response.status).toBe(500);
+    expect(response.body).toEqual({ error: 'Test error' }); // Fixed assertion
+  });
 });

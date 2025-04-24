@@ -11,15 +11,22 @@ class Logger {
   }
 
   setLevel(level) {
-    if (this.levels[level]) this.level = level;
+    if (this.levels[level] !== undefined) {
+      this.level = level;
+    } else {
+      console.warn(`Invalid log level: ${level}`);
+    }
   }
 
   log(message, { level = 'info', context = {}, format } = {}) {
     if (this.levels[level] < this.levels[this.level]) return;
+
     const key = `${level}:${message}`;
     const now = Date.now();
     const entry = this.messages.get(key) || { count: 0, last: 0 };
-    if (entry.count >= this.rateLimit.max && now - entry.last < this.rateLimit.perSecond * 1000) return;
+
+    if (entry.count >= this.rateLimit.max && now - entry.last < 1000 / this.rateLimit.perSecond) return;
+
     entry.count++;
     entry.last = now;
     this.messages.set(key, entry);
@@ -30,9 +37,14 @@ class Logger {
       level,
       message: Sanitize(message instanceof Error ? message.message : message),
       context: Sanitize(context),
-      stack: message.stack || null,
+      stack: message instanceof Error ? message.stack : null,
     };
-    const output = format || this.format === 'json' ? JSON.stringify(logEntry, null, 2) : `${timestamp} [${level.toUpperCase()}] ${logEntry.message}`;
+
+    const output =
+      format || this.format === 'json'
+        ? JSON.stringify(logEntry, null, 2)
+        : `${timestamp} [${level.toUpperCase()}] ${logEntry.message}`;
+
     this.output[level === 'error' ? 'error' : 'log'](output);
   }
 }

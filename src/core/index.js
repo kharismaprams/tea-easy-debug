@@ -23,10 +23,10 @@ class EasyDebug {
     this.debugMode = options.debugMode || false;
     this.plugins = {};
     this.pluginLoaders = {
-      express: () => require('../plugins/express')(this),
-      hardhat: () => require('../plugins/hardhat')(this),
-      next: () => require('../plugins/next')(this),
-      sentry: () => require('../plugins/sentry')(this, options.sentry),
+      express: () => require('./plugins/express')(this),
+      hardhat: () => require('./plugins/hardhat')(this),
+      next: () => require('./plugins/next')(this),
+      sentry: () => require('./plugins/sentry')(this, options.sentry),
     };
   }
 
@@ -88,6 +88,9 @@ class EasyDebug {
   }
 
   getPlugin(name) {
+    if (!this.pluginLoaders[name]) {
+      throw new Error(`Plugin "${name}" not found`);
+    }
     if (!this.plugins[name]) {
       this.plugins[name] = this.pluginLoaders[name]();
     }

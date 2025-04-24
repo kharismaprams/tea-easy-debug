@@ -1,6 +1,6 @@
 {
     "name": "tea-easy-debug",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "description": "Ultimate error handling and debugging library for Node.js, frontend, smart contracts, and tea Protocol",
     "main": "src/core/index.js",
     "bin": {
@@ -9,6 +9,8 @@
     "scripts": {
         "test": "jest",
         "build": "node scripts/build.js",
+        "lint": "eslint .",
+        "format": "prettier --write .",
         "publish": "npm publish --access public"
     },
     "keywords": [
@@ -24,7 +26,7 @@
     "dependencies": {
         "@sentry/node": "^7.50.0",
         "commander": "^9.4.1",
-        "tea-easy-debug": "^1.0.3"
+        "tea-easy-debug": "^1.0.5"
     },
     "devDependencies": {
         "eslint": "^8.28.0",

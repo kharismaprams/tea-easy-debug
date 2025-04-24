@@ -4,3 +4,5 @@ dist/
 coverage/
 info.md
 info2.md
+scripts/
+*.log
