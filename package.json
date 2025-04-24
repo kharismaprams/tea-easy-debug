@@ -1,6 +1,6 @@
 {
     "name": "tea-easy-debug",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "description": "Ultimate error handling and debugging library for Node.js, frontend, smart contracts, and tea Protocol",
     "main": "src/core/index.js",
     "bin": {

@@ -19,7 +19,7 @@ module.exports = function (easyDebug) {
         },
         stack: err.stack,
       });
-      easyDebug.analyzer.recordError(err); // Tambah ini
+      easyDebug.analyzer.recordError(err);
       res.status(500).json({ error: err.message || 'Internal Server Error' });
     },
   };
