@@ -1,0 +1,14 @@
+{
+    "name": "tea-debug-demo",
+    "version": "1.0.0",
+    "main": "src/index.js",
+    "scripts": {
+      "start": "node src/index.js"
+    },
+    "dependencies": {
+      "easy-debug": "^1.0.0",
+      "express": "^4.18.2",
+      "@sentry/node": "^7.50.0",
+      "commander": "^9.4.1"
+    }
+  }
