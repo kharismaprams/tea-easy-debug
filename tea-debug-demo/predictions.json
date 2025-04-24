@@ -1,1 +1,1 @@
-node -e "console.log(JSON.stringify(require('tea-tea-easy-debug').predict(), null, 2))" > predictions.json
+node -e "console.log(JSON.stringify(require('tea-easy-debug').predict(), null, 2))" > predictions.json

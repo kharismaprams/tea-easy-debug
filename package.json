@@ -1,5 +1,5 @@
 {
-    "name": "tea-tea-easy-debug",
+    "name": "tea-easy-debug",
     "version": "1.0.1",
     "description": "Ultimate error handling and debugging library for Node.js, frontend, smart contracts, and tea Protocol",
     "main": "src/core/index.js",
