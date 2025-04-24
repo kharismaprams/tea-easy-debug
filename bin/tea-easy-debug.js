@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 const { program } = require('commander');
-const EasyDebug = require('../src/core/index');
+const EasyDebug = require('tea-easy-debug');
 
 program
   .command('analyze')
   .description('Analyze errors and predictions')
   .action(() => {
     console.log('Error Summary:', EasyDebug.analyze());
-    console.log('Predictions:', EasyDebug.predict());
+    console.log('AI Predictions:', EasyDebug.predict());
   });
 
 program
